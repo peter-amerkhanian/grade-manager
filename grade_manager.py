@@ -43,7 +43,8 @@ if __name__ == '__main__':
         columns = ['C', 'H', 'M', 'R', 'W']
     # begin entering data
     input("\n\nMove your mouse to the first cell then press 'Enter'"
-          " \n ***Leave the computer alone after you press Enter!*** ")
+          " \n ***Leave the computer alone after you press Enter!*** "
+          " \n ***Move your mouse to the upper left hand corner of the screen to stop the process!***")
     pyautogui.click(pyautogui.position())
     for ind, col in enumerate(columns):
         grade_dict = {}
