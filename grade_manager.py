@@ -12,7 +12,6 @@ def copy_paste(data, reverse=False):
             pyautogui.PAUSE = 0.1
             for _ in range(5):
                 pyautogui.press('backspace')
-                pyautogui.hotkey('ctrl', 'a')
         pyautogui.PAUSE = 0.3
         pyautogui.typewrite(score)
         if reverse:
@@ -31,7 +30,8 @@ if __name__ == '__main__':
     print("Make sure that you have your desired Excel file open, and the correct sheet selected,")
     input("then press 'Enter'")
     while True:
-        blank = input("...\n...\nIs the spreadsheet you will be copying the information into currently blank? (Y/N) ")
+        blank = input("...\n...\nIs the spreadsheet you will be copying the information into currently blank? (Y/N) "
+                      "Note: If you are copying into a spreadsheet app that supports overwriting cells, just select Y")
         if blank.lower() == "y" or blank.lower() == "n":
             break
         else:
