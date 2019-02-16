@@ -9,19 +9,19 @@ def copy_paste(data, reverse=False, blank=True):
     data - a list
     reverse - boolean
     """
+    count = 0
     for score in data[:-1]:
         if not blank:
             pyautogui.hotkey('ctrl', 'c')
             time.sleep(.01)
             text = str(pyperclip.paste())
-            print(text)
             while True:
                 if "0.01" in text:
-                    print("!!!!\n")
                     if reverse:
                         pyautogui.press('up')
                     else:
                         pyautogui.press('down')
+                        count += 1
                     pyautogui.hotkey('ctrl', 'c')
                     time.sleep(.01)
                     text = str(pyperclip.paste())
@@ -38,15 +38,30 @@ def copy_paste(data, reverse=False, blank=True):
             time.sleep(.01)
         else:
             pyautogui.press('down')
+            count += 1
             time.sleep(.01)
     pyautogui.PAUSE = 0.1
     for _ in range(len(text)):
         pyautogui.press('backspace')
     pyautogui.PAUSE = 0.3
     pyautogui.typewrite(data[-1])
-    print("***", data[-1])
     time.sleep(.02)
     pyautogui.press('right')
+    return count
+
+
+def cleanup():
+    pyautogui.hotkey('ctrl', 'c')
+    time.sleep(.01)
+    text = str(pyperclip.paste())
+    if "0.01" in text:
+        for _ in range(5):
+            pyautogui.press('left')
+            for _ in range(4):
+                pyautogui.press('backspace')
+        for _ in range(5):
+            pyautogui.press('right')
+    pyautogui.press('up')
 
 
 if __name__ == '__main__':
@@ -83,9 +98,9 @@ if __name__ == '__main__':
             grade_dict['column'] = col
             grade_dict['scores'] = assignment
             if blank == 'y':
-                copy_paste(grade_dict['scores'])
+                count = copy_paste(grade_dict['scores'])
             else:
-                copy_paste(grade_dict['scores'], blank=False)
+                count = copy_paste(grade_dict['scores'], blank=False)
         else:
             assignment = [str(score) for score in list(xw.Range(f'{col}11:{col}{last_row}').value)[::-1]]
             grade_dict['column'] = col
@@ -94,3 +109,5 @@ if __name__ == '__main__':
                 copy_paste(grade_dict['scores'], reverse=True)
             else:
                 copy_paste(grade_dict['scores'], reverse=True, blank=False)
+    for _ in range(count):
+        cleanup()
