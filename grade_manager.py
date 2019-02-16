@@ -1,4 +1,6 @@
+import time
 import pyautogui
+import pyperclip as pyperclip
 import xlwings as xw
 
 
@@ -9,16 +11,41 @@ def copy_paste(data, reverse=False, blank=True):
     """
     for score in data[:-1]:
         if not blank:
+            pyautogui.hotkey('ctrl', 'c')
+            time.sleep(.01)
+            text = str(pyperclip.paste())
+            print(text)
+            while True:
+                if "0.01" in text:
+                    print("!!!!\n")
+                    if reverse:
+                        pyautogui.press('up')
+                    else:
+                        pyautogui.press('down')
+                    pyautogui.hotkey('ctrl', 'c')
+                    time.sleep(.01)
+                    text = str(pyperclip.paste())
+                else:
+                    break
             pyautogui.PAUSE = 0.1
-            for _ in range(5):
+            for _ in range(len(text)):
                 pyautogui.press('backspace')
-        pyautogui.PAUSE = 0.2
+        pyautogui.PAUSE = 0.3
         pyautogui.typewrite(score)
+        time.sleep(.01)
         if reverse:
             pyautogui.press('up')
+            time.sleep(.01)
         else:
             pyautogui.press('down')
+            time.sleep(.01)
+    pyautogui.PAUSE = 0.1
+    for _ in range(len(text)):
+        pyautogui.press('backspace')
+    pyautogui.PAUSE = 0.3
     pyautogui.typewrite(data[-1])
+    print("***", data[-1])
+    time.sleep(.02)
     pyautogui.press('right')
 
 
@@ -48,6 +75,7 @@ if __name__ == '__main__':
           " \n ***Move your mouse to the upper left hand\n corner of the screen to stop the process!***"
           "...\n...\n")
     pyautogui.click(pyautogui.position())
+    pyautogui.hotkey('ctrl', 'a')
     for ind, col in enumerate(columns):
         grade_dict = {}
         if ind % 2 == 0:
