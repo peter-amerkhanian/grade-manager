@@ -41,7 +41,7 @@ if __name__ == '__main__':
     if 'QUIM' in xw.sheets.active.name:
         columns = ['C']
     else:
-        columns = ['C', 'H', 'M', 'R', 'W']
+        columns = ['X', 'Y', 'Z', 'AA', 'AB']
     # begin entering data
     input("...\n...\nMove your mouse to the first cell then press 'Enter'"
           " \n ***Leave the computer alone after you press Enter!*** "
