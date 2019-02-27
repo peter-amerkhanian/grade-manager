@@ -67,18 +67,19 @@ def name_check(last_row_with_names):
     return student_names, student_rejects, excel_reject_indices, excel_reject_indices_reverse
 
 
-if __name__ == '__main__':
+def main():
     pyautogui.FAILSAFE = True
-    print("...\n...\nThis program will be extracting grades from an Excel file.")
-    print("Make sure that you have your desired Excel file open, and the correct sheet selected,")
-    input("then press 'Enter'")
-    last_row = input("...\n...\nWhat is the last row occupied by students? ")
-    print("Checking that names line up")
+    while True:
+        last_row = input("What is the last row in the excel sheet occupied by students?")
+        try:
+            int(last_row)
+            break
+        except ValueError:
+            print("Not a valid row number, please try again")
     names, rejects, xl_rejects, xl_rejects_reverse = name_check(last_row)
 
     # begin entering data
     while True:
-
         # check for quimestre scores
         if 'QUIM' in xw.sheets.active.name:
             columns = ['C']
@@ -90,7 +91,6 @@ if __name__ == '__main__':
               " \n ***Leave the computer alone after you press Enter!*** "
               " \n ***Move your mouse to the upper left hand\n corner of the screen to stop the process!***"
               "...\n...\n")
-
         pyautogui.click(pyautogui.position())
         pyautogui.hotkey('ctrl', 'a')
         for ind, col in enumerate(columns):
@@ -111,4 +111,7 @@ if __name__ == '__main__':
                 copy_paste(grade_dict['scores'], names[::-1], rejects, reverse=True)
         input("Grade entry complete, press enter and open up the next sheet.")
 
+
+if __name__ == '__main__':
+    main()
 
