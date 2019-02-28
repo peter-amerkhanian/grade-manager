@@ -14,6 +14,6 @@ Python 3.6 recommended. Navigate to the directory of the
 repo and run the following:
 ```
 $ pip3 install -r requirements.txt
-$ python grade_manager.py
+$ python3 grade_manager.py
 ```
 
