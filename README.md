@@ -21,6 +21,16 @@ $ python3 grade_manager.py
 One may need to reinstall some 
 of the requirements and also install xCode.  
 
+it wil all look more like this:
+```
+$ pip3 install pyobjc-core
+$ pip3 install pyobjc
+$ pip3 install xlwings # here you'll be prompted to download xCode
+$ pip3 install pyautogui
+$ pip3 install pyperclip
+$ pip3 install -r requirements.txt
+```
+
 Instead of running in the terminal, you can
 just double-click:  
 grade_manager.command
