@@ -54,13 +54,15 @@ def name_check(last_row_with_names):
         if len(student_names) > 0:
             if name_text == student_names[-1]:
                 break
-        if sorted(name_text.split()) not in [sorted(n.split()) for n in excel_names]:
+        # if sorted(name_text.split()) not in [sorted(n.split()) for n in excel_names]:
+        if max([len(set(name_text.split()) & set(n.split())) for n in excel_names]) < 3:
             student_rejects.append(name_text)
+            print(name_text)
         student_names.append(name_text)
         pyautogui.press('down')
-    print(student_names)
-    excel_rejects = [name for name in excel_names
-                     if sorted(name.split()) not in [sorted(n.split()) for n in student_names]]
+    # excel_rejects = [name for name in excel_names
+    #                  if sorted(name.split()) not in [sorted(n.split()) for n in student_names]]
+    excel_rejects = [name for name in excel_names if max([len(set(name.split()) & set(n.split())) for n in student_names]) < 3]
     excel_reject_indices = [excel_names.index(name) for name in excel_rejects]
     excel_reject_indices_reverse = [excel_names[::-1].index(name) for name in excel_rejects]
     print(excel_reject_indices)
