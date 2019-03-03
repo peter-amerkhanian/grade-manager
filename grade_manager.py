@@ -42,7 +42,7 @@ def copy_paste(data, student_names, student_rejects, reverse=False):
 
 
 def name_check(last_row_with_names):
-    input("...\n...\nMove your mouse to the first student's name and press Enter")
+    input("...\n...\nMove your mouse to the first student's name and press Enter\n")
     excel_names = [str(score).strip() for score in xw.Range(f'B11:B{last_row_with_names}').value]
     student_names = []
     student_rejects = []
@@ -57,27 +57,29 @@ def name_check(last_row_with_names):
         # if sorted(name_text.split()) not in [sorted(n.split()) for n in excel_names]:
         if max([len(set(name_text.split()) & set(n.split())) for n in excel_names]) < 3:
             student_rejects.append(name_text)
-            print(name_text)
+            print("Name in the Ministerio file and not the Excel: ", name_text)
         student_names.append(name_text)
         pyautogui.press('down')
     # excel_rejects = [name for name in excel_names
     #                  if sorted(name.split()) not in [sorted(n.split()) for n in student_names]]
     excel_rejects = [name for name in excel_names if max([len(set(name.split()) & set(n.split())) for n in student_names]) < 3]
+    if len(excel_rejects) > 0:
+        print("The following names are in the Excel file and not in the Ministerio file:", "\n".join(excel_rejects))
     excel_reject_indices = [excel_names.index(name) for name in excel_rejects]
     excel_reject_indices_reverse = [excel_names[::-1].index(name) for name in excel_rejects]
-    print(excel_reject_indices)
+    # print(excel_reject_indices)
     return student_names, student_rejects, excel_reject_indices, excel_reject_indices_reverse
 
 
 def main():
     pyautogui.FAILSAFE = True
     while True:
-        last_row = input("What is the last row in the excel sheet occupied by students?")
+        last_row = input("What is the last row in the excel sheet occupied by students? ")
         try:
             int(last_row)
             break
         except ValueError:
-            print("Not a valid row number, please try again")
+            print("Not a valid row number, please try again ")
     names, rejects, xl_rejects, xl_rejects_reverse = name_check(last_row)
 
     # begin entering data
@@ -98,20 +100,21 @@ def main():
         for ind, col in enumerate(columns):
             grade_dict = {}
             if ind % 2 == 0:
-                assignment = [str(score) for score in xw.Range(f'{col}11:{col}{last_row}').value]
+                # changed rounding
+                assignment = [str(format(score, '.2f')) for score in xw.Range(f'{col}11:{col}{last_row}').value]
                 for index in xl_rejects:
                     assignment.pop(index)
                 grade_dict['column'] = col
                 grade_dict['scores'] = assignment
                 copy_paste(grade_dict['scores'], names, rejects)
             else:
-                assignment = [str(score) for score in list(xw.Range(f'{col}11:{col}{last_row}').value)[::-1]]
+                assignment = [str(format(score, '.2f')) for score in list(xw.Range(f'{col}11:{col}{last_row}').value)[::-1]]
                 for index in xl_rejects_reverse:
                     assignment.pop(index)
                 grade_dict['column'] = col
                 grade_dict['scores'] = assignment
                 copy_paste(grade_dict['scores'], names[::-1], rejects, reverse=True)
-        input("Grade entry complete, press enter and open up the next sheet.")
+        input("\n\nGrade entry complete, press enter and open up the next sheet.\n")
 
 
 if __name__ == '__main__':
