@@ -43,7 +43,7 @@ def copy_paste(data, student_names, student_rejects, reverse=False):
 
 def name_check(last_row_with_names):
     input("...\n...\nMove your mouse to the first student's name and press Enter\n")
-    excel_names = [str(score).strip() for score in xw.Range(f'B11:B{last_row_with_names}').value]
+    excel_names = [str(score).strip() for score in xw.Range(f'B11:B{last_row_with_names}').value].copy()
     student_names = []
     student_rejects = []
     pyautogui.click(pyautogui.position())
@@ -67,7 +67,6 @@ def name_check(last_row_with_names):
         print("The following names are in the Excel file and not in the Ministerio file:", "\n".join(excel_rejects))
     excel_reject_indices = [excel_names.index(name) for name in excel_rejects]
     excel_reject_indices_reverse = [excel_names[::-1].index(name) for name in excel_rejects]
-    # print(excel_reject_indices)
     return student_names, student_rejects, excel_reject_indices, excel_reject_indices_reverse
 
 
@@ -101,14 +100,20 @@ def main():
             grade_dict = {}
             if ind % 2 == 0:
                 # changed rounding
-                assignment = [str(format(score, '.2f')) for score in xw.Range(f'{col}11:{col}{last_row}').value]
+                xl_range = list(xw.Range(f'{col}11:{col}{last_row}').value).copy()
+                xl_range = [0.00 if x == '' or x is None else x for x in xl_range]
+                print(xl_range)
+                assignment = [str(format(score, '.2f')) for score in xl_range]
                 for index in xl_rejects:
                     assignment.pop(index)
                 grade_dict['column'] = col
                 grade_dict['scores'] = assignment
                 copy_paste(grade_dict['scores'], names, rejects)
             else:
-                assignment = [str(format(score, '.2f')) for score in list(xw.Range(f'{col}11:{col}{last_row}').value)[::-1]]
+                xl_range = list(xw.Range(f'{col}11:{col}{last_row}').value)[::-1].copy()
+                xl_range = [0.00 if x == '' or x is None else x for x in xl_range]
+                print(xl_range)
+                assignment = [str(format(score, '.2f')) for score in xl_range]
                 for index in xl_rejects_reverse:
                     assignment.pop(index)
                 grade_dict['column'] = col
