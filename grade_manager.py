@@ -4,7 +4,7 @@ from data_entry import copy_paste
 from name_check import name_check
 
 
-def main():
+def main() -> None:
     pyautogui.FAILSAFE: bool = True
     while True:
         last_row: str = input("What is the last row in the excel sheet occupied by students? ")
@@ -14,7 +14,6 @@ def main():
         except ValueError:
             print("Not a valid row number, please try again ")
     names, rejects, xl_reject_indices, xl_rejects_reverse = name_check(last_row)
-
     # begin entering data
     while True:
         columns = ['E', 'F', 'G']

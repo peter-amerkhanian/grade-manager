@@ -3,6 +3,7 @@ import time
 
 
 def page_turn(reverse: bool) -> None:
+    """determines whether to continue up or down the column"""
     if reverse:
         pyautogui.press('up')
         time.sleep(.02)
@@ -11,14 +12,13 @@ def page_turn(reverse: bool) -> None:
         time.sleep(.02)
 
 
-def copy_paste(data: list, student_names: list, student_rejects:list, reverse:bool =False):
-    """
-    data - a list
-    reverse - boolean
-    """
-    count = 0
+def copy_paste(data: list, student_names: list, student_rejects: list, reverse: bool = False):
+    """Enters one column of grades"""
+    count: int = 0
     print(student_names)
     print(len(data))
+    index: int
+    name: str
     for index, name in enumerate(student_names):
         print(index)
         print(len(student_names))
