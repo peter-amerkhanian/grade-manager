@@ -5,10 +5,9 @@ from name_check import name_check
 
 
 def main():
-    pyautogui.FAILSAFE = True
+    pyautogui.FAILSAFE: bool = True
     while True:
-        last_row = input("What is the last row in the excel sheet occupied by students? ")
-        print(last_row)
+        last_row: str = input("What is the last row in the excel sheet occupied by students? ")
         try:
             int(last_row)
             break
@@ -49,6 +48,6 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except(pyautogui.FailSafeException):
-        print("Process quit.")
+    except pyautogui.FailSafeException:
+        print("\nProcess quit.")
 
