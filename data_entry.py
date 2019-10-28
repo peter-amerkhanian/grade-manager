@@ -15,13 +15,9 @@ def page_turn(reverse: bool) -> None:
 def copy_paste(data: list, student_names: list, student_rejects: list, reverse: bool = False):
     """Enters one column of grades"""
     count: int = 0
-    print(student_names)
-    print(len(data))
     index: int
     name: str
     for index, name in enumerate(student_names):
-        print(index)
-        print(len(student_names))
         if name in student_rejects:
             page_turn(reverse)
         else:

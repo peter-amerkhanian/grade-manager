@@ -39,7 +39,6 @@ def name_check(last_row_with_names: str) -> Tuple[List[str], List[str], List[int
     if len(excel_rejects) > 0:
         print("The following names are in the Excel file and not in the Ministerio app:\n", "\n".join(excel_rejects))
     excel_reject_indices: List[int] = [excel_names.index(name) for name in excel_rejects]
-    print(excel_reject_indices)
     excel_reject_indices_reverse: List[int] = [excel_names[::-1].index(name) for name in excel_rejects]
     return minister_names, minister_rejects, excel_reject_indices, excel_reject_indices_reverse
 
