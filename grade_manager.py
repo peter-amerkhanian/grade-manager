@@ -8,7 +8,7 @@ import collections
 
 def main() -> None:
     pyautogui.FAILSAFE: bool = True
-    print(f"Entering grades for {xw.books.active.name}")
+    print(f"Actualmente ingresando las calificaciones de {xw.books.active.name}.")
     excel_names: List[Optional[str, int, None]] = xw.Range("B10:B100").value.copy()
     last_row: None = None
     for x in range(len(excel_names)):
@@ -17,12 +17,13 @@ def main() -> None:
             break
     if not last_row:
         while True:
-            last_row: str = input("Please manually enter the last row in the excel sheet occupied by students ")
+            last_row: str = input(
+                "Por favor, introduzca manualmente la última fila en la hoja de Excel ocupada por los estudiantes.")
             try:
                 last_row: int = int(last_row)
                 break
             except ValueError:
-                print("Not a valid row number, please try again ")
+                print("No es un número de fila válido, por favor inténtelo de nuevo.")
     names, rejects, xl_reject_indices, xl_rejects_reverse = name_check(last_row)
     excel_names: List[str] = [str(name).strip().lower() for name in excel_names[:last_row - 9]]
     for index in sorted(xl_reject_indices, reverse=True):
@@ -31,9 +32,9 @@ def main() -> None:
     # begin entering data
     columns = ['E', 'F', 'G']
     # start data entry
-    input("\n\nMove your mouse to the first cell then press 'Enter'"
-          " \n *Leave the computer alone after you press Enter!* "
-          " \n *(Move your mouse to the upperleft hand side to cancel)*"
+    input("\n\nMueva el ratón a la primera celda y luego presione 'Intro/Enter'"
+          " \n *Deje la computadora en paz después de pulsar Intro/Enter!* "
+          " \n *(Mueva el ratón hacia el lado superior izquierdo para cancelar)*"
           "\n\n")
     input()
     pyautogui.click(pyautogui.position())
@@ -67,12 +68,12 @@ def main() -> None:
         del scores_backward[index]
     grade_dict = collections.OrderedDict(zip(excel_names_reverse, scores_backward))
     copy_paste(grade_dict, names[::-1], rejects, reverse=True)
-    print("\n\nGrade entry complete.\n")
+    print("\n\nIngreso de calificación está completo.\n")
 
 
 if __name__ == '__main__':
     try:
         main()
     except pyautogui.FailSafeException:
-        print("\nProcess quit.")
+        print("\nProceso parado.")
 
