@@ -15,7 +15,7 @@ def compare_to_minister_names(excel_name: str, minister_names: List[str]) -> Lis
 
 
 def name_check(last_row_with_names: str) -> Tuple[List[str], List[str], List[int], List[int]]:
-    input("\nMove your mouse to the first student's name and press Enter.")
+    input("\nMueva el ratón al nombre del primer alumno y pulse Intro/Enter.")
     names: List[str] = xw.Range(f'B10:B{last_row_with_names}').value
     excel_names: List[str] = [str(name).strip() for name in names].copy()
     minister_names: List[str] = []
@@ -33,11 +33,11 @@ def name_check(last_row_with_names: str) -> Tuple[List[str], List[str], List[int
         minister_names.append(minister_text)
         pyautogui.press('down')
     excel_rejects: List[str] = [name for name in excel_names if max(compare_to_minister_names(name, minister_names)) < 2]
-    print("Done\n")
+    print("Listo\n")
     if len(minister_rejects) > 0:
-        print("The following names are in the Ministerio app and not in the Excel file:\n", "\n".join(minister_rejects))
+        print("Los siguientes nombres se encuentran en la aplicación Ministerio y no en el archivo de Excel:\n", "\n".join(minister_rejects))
     if len(excel_rejects) > 0:
-        print("The following names are in the Excel file and not in the Ministerio app:\n", "\n".join(excel_rejects))
+        print("Los siguientes nombres se encuentran en el archivo de Excel y no en la aplicación Ministerio:\n", "\n".join(excel_rejects))
     excel_reject_indices: List[int] = [excel_names.index(name) for name in excel_rejects]
     excel_reject_indices_reverse: List[int] = [excel_names[::-1].index(name) for name in excel_rejects]
     return minister_names, minister_rejects, excel_reject_indices, excel_reject_indices_reverse
