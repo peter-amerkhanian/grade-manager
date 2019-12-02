@@ -1,0 +1,13 @@
+
+.idea/.gitignore
+.idea/codeStyles/
+.idea/encodings.xml
+.idea/grade_manager.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+__pycache__/
+build/
+dist/
+grade_manager.spec
+venv/
