@@ -15,7 +15,7 @@ def compare_to_minister_names(excel_name: str, minister_names: List[str]) -> Lis
 
 
 def name_check(last_row_with_names: str) -> Tuple[List[str], List[str], List[int], List[int]]:
-    input("\nMueva el ratón al nombre del primer alumno y pulse Intro/Enter.")
+    input("\nPASO 1: Mueva el ratón al nombre del primer alumno y pulse Intro/Enter.")
     names: List[str] = xw.Range(f'B10:B{last_row_with_names}').value
     excel_names: List[str] = [str(name).strip() for name in names].copy()
     minister_names: List[str] = []
@@ -33,7 +33,7 @@ def name_check(last_row_with_names: str) -> Tuple[List[str], List[str], List[int
         minister_names.append(minister_text)
         pyautogui.press('down')
     excel_rejects: List[str] = [name for name in excel_names if max(compare_to_minister_names(name, minister_names)) < 2]
-    print("Listo\n")
+    print("Listo.")
     if len(minister_rejects) > 0:
         print("Los siguientes nombres se encuentran en la aplicación Ministerio y no en el archivo de Excel:\n", "\n".join(minister_rejects))
     if len(excel_rejects) > 0:

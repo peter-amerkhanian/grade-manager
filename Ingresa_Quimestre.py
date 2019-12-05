@@ -1,14 +1,19 @@
 import pyautogui
 import xlwings as xw
-from data_entry import copy_paste
-from name_check import name_check
+from components.data_entry import copy_paste
+from components.name_check import name_check
 from typing import List, Optional
 import collections
 
 
 def main() -> None:
     pyautogui.FAILSAFE: bool = True
-    print(f"Actualmente ingresando las calificaciones de {xw.books.active.name}.")
+    try:
+        print(f"Hola, actualmente está ingresando las calificaciones de {xw.books.active.name}.")
+    except AttributeError:
+        print('ERROR: No hay ningún archivo de Excel abierto actualmente. ' +
+              'Abra un archivo de Excel y vaya a una página de "actas" antes de ejecutar el programa')
+        return None
     excel_names: List[Optional[str, int, None]] = xw.Range("B10:B100").value.copy()
     last_row: None = None
     for x in range(len(excel_names)):
@@ -23,7 +28,7 @@ def main() -> None:
                 last_row: int = int(last_row)
                 break
             except ValueError:
-                print("No es un número de fila válido, por favor inténtelo de nuevo.")
+                print("ERROR: No es un número de fila válido, por favor inténtelo de nuevo.")
     names, rejects, xl_reject_indices, xl_rejects_reverse = name_check(last_row)
     excel_names: List[str] = [str(name).strip().lower() for name in excel_names[:last_row - 9]]
     for index in sorted(xl_reject_indices, reverse=True):
@@ -32,11 +37,9 @@ def main() -> None:
     # begin entering data
     columns = ['E', 'F', 'G']
     # start data entry
-    input("\n\nMueva el ratón a la primera celda y luego presione 'Intro/Enter'"
-          " \n *Deje la computadora en paz después de pulsar Intro/Enter!* "
-          " \n *(Mueva el ratón hacia el lado superior izquierdo para cancelar)*"
-          "\n\n")
-    input()
+    input("\nPASO 2: Mueva el ratón a la primera celda y luego presione 'Intro/Enter'"
+          "\nDeje la computadora en paz después de pulsar Intro/Enter!"
+          "\n(Mueva el ratón hacia el lado superior izquierdo para cancelar)")
     pyautogui.click(pyautogui.position())
     pyautogui.hotkey('ctrl', 'a')
     for ind, col in enumerate(columns):
@@ -68,7 +71,7 @@ def main() -> None:
         del scores_backward[index]
     grade_dict = collections.OrderedDict(zip(excel_names_reverse, scores_backward))
     copy_paste(grade_dict, names[::-1], rejects, reverse=True)
-    print("\n\nIngreso de calificación está completo.\n")
+    print("\n\nIngreso de quimestre está completo.\n")
 
 
 if __name__ == '__main__':
@@ -76,4 +79,5 @@ if __name__ == '__main__':
         main()
     except pyautogui.FailSafeException:
         print("\nProceso parado.")
+    input("\nPulse cualquier tecla para salir.")
 

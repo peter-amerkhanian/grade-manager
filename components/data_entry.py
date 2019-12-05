@@ -33,7 +33,7 @@ def copy_paste(data: OrderedDict, student_names: list, student_rejects: list, re
             value: str = data.get(name)
             if not value:
                 value: str = data_list[count]
-                print(f"PLEASE REVIEW: {name.upper()} - {value}")
+                print(f"REVISA: {name.upper()} - {value}")
             # print(name, value)
             pyautogui.typewrite(value)
             count += 1

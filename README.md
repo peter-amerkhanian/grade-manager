@@ -10,10 +10,10 @@ of moving large amounts of data into an app that does not allow for
 multi-cell pasting.
 
 ## Install / Run
-Python 3.6 recommended, Windows required. Navigate to the directory of the 
+Python 3.6 or higher recommended, Windows required. Navigate to the directory of the 
 repo and run the following:
 ```
-$ pip3 install -r requirements.txt
+$ python3 -m pip install -r requirements.txt
 $ python3 grade_manager.py
 ```
 
