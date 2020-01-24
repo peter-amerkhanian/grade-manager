@@ -18,7 +18,8 @@ def main() -> None:
     excel_names: List[Optional[str, int, None]] = xw.Range("B10:B100").value.copy()
     last_row: None = None
     for x in range(len(excel_names)):
-        if excel_names[x] == 0.0 and excel_names[x - 1] == 0.0:
+        if excel_names[x] == 0.0 and excel_names[x - 1] == 0.0 and excel_names[x - 2] == 0.0 and excel_names[
+            x - 3] == 0.0:
             last_row: int = x - 2 + 10
             break
     if not last_row:
@@ -45,7 +46,7 @@ def main() -> None:
         except KeyError:
             print("ERROR: Ingrese 1, 2, 3 o examen")
     # begin entering data
-    columns_to_parciales = {1:'E', 2:'F', 3:'G'}
+    columns_to_parciales = {1: 'E', 2: 'F', 3: 'G'}
     # start data entry
     input("\nPASO 3:\nMueva el ratón a la primera celda y luego presione 'Intro/Enter'"
           " \nDeje la computadora en paz después de pulsar Intro/Enter! "
@@ -71,4 +72,3 @@ if __name__ == '__main__':
     except pyautogui.FailSafeException:
         print("\nProceso parado.")
     input("\nPulse cualquier tecla para salir.")
-

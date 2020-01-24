@@ -17,7 +17,8 @@ def main() -> None:
     excel_names: List[Optional[str, int, None]] = xw.Range("B10:B100").value.copy()
     last_row: None = None
     for x in range(len(excel_names)):
-        if excel_names[x] == 0.0 and excel_names[x - 1] == 0.0:
+        if excel_names[x] == 0.0 and excel_names[x - 1] == 0.0 and excel_names[x - 2] == 0.0 and excel_names[
+            x - 3] == 0.0:
             last_row: int = x - 2 + 10
             break
     if not last_row:
@@ -80,4 +81,3 @@ if __name__ == '__main__':
     except pyautogui.FailSafeException:
         print("\nProceso parado.")
     input("\nPulse cualquier tecla para salir.")
-
